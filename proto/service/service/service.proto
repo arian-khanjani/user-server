@@ -1,0 +1,17 @@
+syntax = "proto3";
+option go_package = "jonathanthegreat/service";
+package service;
+
+import "protoc-gen-gotag/tagger.proto";
+
+service ServerService {
+  rpc Get(GetRequest) returns(Empty);
+}
+
+message GetRequest {
+  string id = 1 [(tagger.tags) = "bson:\"_id\""];
+}
+
+message Empty {
+
+}
