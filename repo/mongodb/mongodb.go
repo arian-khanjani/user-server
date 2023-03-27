@@ -21,16 +21,16 @@ type Repo struct {
 }
 
 type ConnProps struct {
-	uri  string
-	db   string
-	coll string
+	URI  string
+	DB   string
+	Coll string
 }
 
 func New(props ConnProps) (*Repo, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
 	defer cancel()
 
-	clientOptions := options.Client().ApplyURI(props.uri)
+	clientOptions := options.Client().ApplyURI(props.URI)
 	c, err := mongo.NewClient(clientOptions)
 	err = c.Connect(ctx)
 	if err != nil {
@@ -42,12 +42,12 @@ func New(props ConnProps) (*Repo, error) {
 		return nil, err
 	}
 
-	db := c.Database(props.db)
+	db := c.Database(props.DB)
 
 	return &Repo{
 		client: *c,
 		db:     *db,
-		coll:   *db.Collection(props.coll),
+		coll:   *db.Collection(props.Coll),
 	}, nil
 }
 
@@ -58,7 +58,7 @@ func NewWithRegistry(props ConnProps) (*Repo, error) {
 	tM := reflect.TypeOf(bson.M{})
 	rb := bson.NewRegistryBuilder()
 	r := codecs.Register(rb).RegisterTypeMapEntry(bsontype.EmbeddedDocument, tM).Build()
-	clientOptions := options.Client().ApplyURI(props.uri).SetRegistry(r)
+	clientOptions := options.Client().ApplyURI(props.URI).SetRegistry(r)
 
 	c, err := mongo.NewClient(clientOptions)
 	err = c.Connect(ctx)
@@ -71,12 +71,12 @@ func NewWithRegistry(props ConnProps) (*Repo, error) {
 		return nil, err
 	}
 
-	db := c.Database(props.db)
+	db := c.Database(props.DB)
 
 	return &Repo{
 		client: *c,
 		db:     *db,
-		coll:   *db.Collection(props.coll),
+		coll:   *db.Collection(props.Coll),
 	}, nil
 }
 

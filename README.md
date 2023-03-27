@@ -1,6 +1,11 @@
 
-# mongo-repo
-A simple MongoDB practice using Repository pattern
+# user-server
+A simple gRPC server practice using MongoDB with repository design pattern
+
+
+## Layers
+- Controller
+- Repository Layer
 
 
 ## Generate .proto files 

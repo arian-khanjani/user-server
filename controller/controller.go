@@ -24,10 +24,47 @@ func New(repo repository) *Controller {
 	return &Controller{repo: repo}
 }
 
-func (c *Controller) Get(ctx context.Context) {
+func (c *Controller) List(ctx context.Context, _ *pb.Empty) (*pb.ListResponse, error) {
+	res, err := c.repo.List(ctx)
+	if err != nil {
+		return nil, err
+	}
 
+	return res, nil
 }
 
-func (c *Controller) Put(ctx context.Context) {
+func (c *Controller) Get(ctx context.Context, in *pb.IDRequest) (*pb.User, error) {
+	res, err := c.repo.Get(ctx, in)
+	if err != nil {
+		return nil, err
+	}
 
+	return res, nil
+}
+
+func (c *Controller) Update(ctx context.Context, in *pb.User) (*pb.User, error) {
+	res, err := c.repo.Update(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (c *Controller) Create(ctx context.Context, in *pb.User) (*pb.User, error) {
+	res, err := c.repo.Create(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return res, nil
+}
+
+func (c *Controller) Delete(ctx context.Context, in *pb.IDRequest) (*pb.Empty, error) {
+	err := c.repo.Delete(ctx, in)
+	if err != nil {
+		return nil, err
+	}
+
+	return &pb.Empty{}, nil
 }
