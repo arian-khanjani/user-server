@@ -13,5 +13,5 @@ buf generate && buf generate --template buf.gen.tag.yaml
 ## Features
 - CRUD Operations
 - Indexing
-- gRPC registery support
+- gRPC registry support
 

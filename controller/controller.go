@@ -2,15 +2,21 @@ package controller
 
 import (
 	"context"
-	pb "jonathanthegreat/mongo-repo/gen/service"
+	pb "github.com/jonathanthegreat/mongo-repo/gen/user"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 type repository interface {
-	Get(ctx context.Context)
+	List(context.Context) (*pb.ListResponse, error)
+	Get(context.Context, *pb.IDRequest) (*pb.User, error)
+	Update(context.Context, *pb.User) (*pb.User, error)
+	Create(context.Context, *pb.User) (*pb.User, error)
+	Delete(context.Context, *pb.IDRequest) error
+	CreateIndexes(context.Context, bson.D) ([]string, error)
 }
 
 type Controller struct {
-	pb.UnimplementedServerServiceServer
+	pb.UnimplementedUserServiceServer
 	repo repository
 }
 

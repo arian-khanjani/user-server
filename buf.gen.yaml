@@ -6,9 +6,9 @@ plugins:
     out: gen
     opt:
       - paths=source_relative
-      - Mschema/schema.proto=workflow/gen/schema
+      - Muser/user.proto=github.com/jonathanthegreat/mongo-repo/gen/user
   - name: go-grpc
     out: gen
     opt:
       - paths=source_relative
-      - Mschema/schema.proto=workflow/gen/schema
+      - Muser/user.proto=github.com/jonathanthegreat/mongo-repo/gen/user

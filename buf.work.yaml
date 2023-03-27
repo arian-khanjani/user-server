@@ -5,5 +5,5 @@
 # previous "buf.yaml" configuration.
 version: v1
 directories:
-  - proto/service
+  - proto/user
   - proto/vendor

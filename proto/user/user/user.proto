@@ -1,0 +1,29 @@
+syntax = "proto3";
+option go_package = "jonathanthegreat/service";
+package service;
+
+import "protoc-gen-gotag/tagger.proto";
+
+service UserService {
+  rpc List(Empty) returns(ListResponse);
+  rpc Get(IDRequest) returns(User);
+  rpc Update(User) returns(User);
+  rpc Create(User) returns(User);
+  rpc Delete(IDRequest) returns(Empty);
+}
+
+message Empty {}
+
+message ListResponse {
+  repeated User users = 1;
+}
+
+message IDRequest {
+  string id = 1 [(tagger.tags) = "bson:\"_id\""];
+}
+
+message User {
+  string id = 1 [(tagger.tags) = "bson:\"_id\""];
+  string name = 2;
+  string email = 3;
+}

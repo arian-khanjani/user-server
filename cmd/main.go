@@ -2,13 +2,13 @@ package main
 
 import (
 	"context"
-	"jonathanthegreat/mongo-repo/controller"
+	"github.com/jonathanthegreat/mongo-repo/controller"
 	"log"
 )
-import "jonathanthegreat/mongo-repo/repo/mongodb"
+import "github.com/jonathanthegreat/mongo-repo/repo/mongodb"
 
 func main() {
-	repo, err := mongodb.New()
+	repo, err := mongodb.New(mongodb.ConnProps{})
 	if err != nil {
 		log.Fatalln(err)
 	}
