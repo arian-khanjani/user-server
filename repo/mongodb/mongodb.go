@@ -86,13 +86,13 @@ func (r *Repo) List(ctx context.Context) (*pb.ListResponse, error) {
 		return nil, err
 	}
 
-	var res pb.ListResponse
+	var res []*pb.User
 	err = cur.All(ctx, &res)
 	if err != nil {
 		return nil, err
 	}
 
-	return &res, nil
+	return &pb.ListResponse{Users: res}, nil
 }
 
 func (r *Repo) Get(ctx context.Context, id *pb.IDRequest) (*pb.User, error) {
@@ -106,7 +106,7 @@ func (r *Repo) Get(ctx context.Context, id *pb.IDRequest) (*pb.User, error) {
 }
 
 func (r *Repo) Update(ctx context.Context, u *pb.User) (*pb.User, error) {
-	upd, err := r.coll.UpdateOne(ctx, bson.D{{"_id", u.Id}}, u)
+	upd, err := r.coll.ReplaceOne(ctx, bson.D{{"_id", u.Id}}, u)
 	if err != nil {
 		return nil, err
 	}
@@ -119,7 +119,7 @@ func (r *Repo) Update(ctx context.Context, u *pb.User) (*pb.User, error) {
 }
 
 func (r *Repo) Create(ctx context.Context, u *pb.User) (*pb.User, error) {
-	u.Id = primitive.NewObjectID().String()
+	u.Id = primitive.NewObjectID().Hex()
 	_, err := r.coll.InsertOne(ctx, u)
 	if err != nil {
 		return nil, err

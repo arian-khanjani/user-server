@@ -1,0 +1,24 @@
+version: "3.7"
+
+networks:
+  network:
+    external: true
+
+volumes:
+  user-server-vol:
+    external: true
+
+services:
+  db:
+    container_name: db
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=user-server
+      - MONGO_INITDB_ROOT_USERNAME=username
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - "user-server-vol:/data/db"
+    ports:
+      - "27017:27017"
