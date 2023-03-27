@@ -149,3 +149,12 @@ func (r *Repo) CreateIndexes(ctx context.Context, index bson.D) ([]string, error
 
 	return res, nil
 }
+
+func (r *Repo) Disconnect(ctx context.Context) error {
+	err := r.client.Disconnect(ctx)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

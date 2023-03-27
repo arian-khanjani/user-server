@@ -37,13 +37,13 @@ func init() {
 
 	ctrl := controller.New(repo)
 
-	grpcServer := grpc.NewServer()
+	server := grpc.NewServer()
 
-	pb.RegisterUserServiceServer(grpcServer, ctrl)
+	pb.RegisterUserServiceServer(server, ctrl)
 
 	lis = bufconn.Listen(bufSize)
 	go func() {
-		if err := grpcServer.Serve(lis); err != nil {
+		if err := server.Serve(lis); err != nil {
 			log.Fatalf("Server exited with error: %v", err)
 		}
 	}()
@@ -74,7 +74,7 @@ func TestList(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	in := &pb.IDRequest{
-		Id: "64217cf3217e3707fb26e3b1",
+		Id: "642182b96bf1efd091001476",
 	}
 
 	res, err := client.Get(ctx, in)
@@ -87,7 +87,7 @@ func TestGet(t *testing.T) {
 
 func TestUpdate(t *testing.T) {
 	in := &pb.User{
-		Id:    "64217cf3217e3707fb26e3b1",
+		Id:    "642182b96bf1efd091001476",
 		Name:  "John Doe - Updated",
 		Email: "john.doe@yahoo.com",
 	}
@@ -116,7 +116,7 @@ func TestCreate(t *testing.T) {
 
 func TestDelete(t *testing.T) {
 	in := &pb.IDRequest{
-		Id: "64217cf3217e3707fb26e3b1",
+		Id: "642182b96bf1efd091001476",
 	}
 
 	res, err := client.Delete(ctx, in)

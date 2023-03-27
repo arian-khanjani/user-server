@@ -3,7 +3,6 @@ package controller
 import (
 	"context"
 	pb "github.com/jonathanthegreat/mongo-repo/gen/user"
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 type repository interface {
@@ -12,7 +11,6 @@ type repository interface {
 	Update(context.Context, *pb.User) (*pb.User, error)
 	Create(context.Context, *pb.User) (*pb.User, error)
 	Delete(context.Context, *pb.IDRequest) error
-	CreateIndexes(context.Context, bson.D) ([]string, error)
 }
 
 type Controller struct {
