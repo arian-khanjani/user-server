@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/jonathanthegreat/mongo-repo/controller"
 	pb "github.com/jonathanthegreat/mongo-repo/gen/user"
+	"go.mongodb.org/mongo-driver/bson"
 	"google.golang.org/grpc"
 	"log"
 	"net"
@@ -18,6 +19,8 @@ import "github.com/jonathanthegreat/mongo-repo/repo/mongodb"
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	log.Println("Starting Server...")
+
+	ctx := context.Background()
 
 	uri := getEnv("MONGO_URI", "", true)
 	db := getEnv("MONGO_DB", "user-server", false)
@@ -40,7 +43,16 @@ func main() {
 			log.Fatalln(err)
 		}
 		log.Println("MongoDB client disconnected")
-	}(repo, context.Background())
+	}(repo, ctx)
+
+	indexes, err := repo.CreateIndexes(ctx, bson.D{
+		{"name", 1},
+		{"email", 1},
+	})
+	if err != nil {
+		log.Fatalln(err)
+	}
+	log.Println("indexes added:", indexes)
 
 	ctrl := controller.New(repo)
 
@@ -53,7 +65,7 @@ func main() {
 	server := grpc.NewServer()
 	pb.RegisterUserServiceServer(server, ctrl)
 
-	serverCtx, serverStopCtx := context.WithCancel(context.Background())
+	serverCtx, serverStopCtx := context.WithCancel(ctx)
 
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
@@ -70,7 +82,7 @@ func main() {
 		}()
 
 		log.Println("Closing MongoDB connection...")
-		err := repo.Disconnect(context.Background())
+		err := repo.Disconnect(ctx)
 		if err != nil {
 			log.Fatalln(err)
 		}
