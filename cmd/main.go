@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/jonathanthegreat/mongo-repo/controller"
-	pb "github.com/jonathanthegreat/mongo-repo/gen/user"
+	"github.com/arian-khanjani/mongo-repo/controller"
+	pb "github.com/arian-khanjani/mongo-repo/gen/user"
 	"go.mongodb.org/mongo-driver/bson"
 	"google.golang.org/grpc"
 	"log"
@@ -14,7 +14,7 @@ import (
 	"syscall"
 	"time"
 )
-import "github.com/jonathanthegreat/mongo-repo/repo/mongodb"
+import "github.com/arian-khanjani/mongo-repo/repo/mongodb"
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)

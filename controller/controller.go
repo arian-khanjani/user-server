@@ -2,7 +2,7 @@ package controller
 
 import (
 	"context"
-	pb "github.com/jonathanthegreat/mongo-repo/gen/user"
+	pb "github.com/arian-khanjani/mongo-repo/gen/user"
 )
 
 type repository interface {

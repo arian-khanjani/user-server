@@ -6,9 +6,9 @@ plugins:
     out: gen
     opt:
       - paths=source_relative
-      - Muser/user.proto=github.com/jonathanthegreat/mongo-repo/gen/user
+      - Muser/user.proto=github.com/arian-khanjani/mongo-repo/gen/user
   - name: go-grpc
     out: gen
     opt:
       - paths=source_relative
-      - Muser/user.proto=github.com/jonathanthegreat/mongo-repo/gen/user
+      - Muser/user.proto=github.com/arian-khanjani/mongo-repo/gen/user

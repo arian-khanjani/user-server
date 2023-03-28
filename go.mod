@@ -1,4 +1,4 @@
-module github.com/jonathanthegreat/mongo-repo
+module github.com/arian-khanjani/mongo-repo
 
 go 1.19
 

@@ -1,5 +1,5 @@
 syntax = "proto3";
-option go_package = "jonathanthegreat/service";
+option go_package = "arian-khanjani/service";
 package service;
 
 import "protoc-gen-gotag/tagger.proto";

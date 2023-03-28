@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 	codecs "github.com/amsokol/mongo-go-driver-protobuf"
-	pb "github.com/jonathanthegreat/mongo-repo/gen/user"
+	pb "github.com/arian-khanjani/mongo-repo/gen/user"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/bsontype"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -141,15 +141,6 @@ func (r *Repo) Delete(ctx context.Context, id *pb.IDRequest) error {
 	return nil
 }
 
-func (r *Repo) CreateIndexes(ctx context.Context, index bson.D) ([]string, error) {
-	res, err := r.coll.Indexes().CreateMany(ctx, []mongo.IndexModel{{Keys: index}})
-	if err != nil {
-		return []string{}, err
-	}
-
-	return res, nil
-}
-
 func (r *Repo) Disconnect(ctx context.Context) error {
 	err := r.client.Disconnect(ctx)
 	if err != nil {
@@ -157,4 +148,13 @@ func (r *Repo) Disconnect(ctx context.Context) error {
 	}
 
 	return nil
+}
+
+func (r *Repo) CreateIndexes(ctx context.Context, index bson.D) ([]string, error) {
+	res, err := r.coll.Indexes().CreateMany(ctx, []mongo.IndexModel{{Keys: index}})
+	if err != nil {
+		return []string{}, err
+	}
+
+	return res, nil
 }

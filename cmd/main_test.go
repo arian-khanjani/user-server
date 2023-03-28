@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"github.com/jonathanthegreat/mongo-repo/controller"
-	pb "github.com/jonathanthegreat/mongo-repo/gen/user"
-	"github.com/jonathanthegreat/mongo-repo/repo/mongodb"
+	"github.com/arian-khanjani/mongo-repo/controller"
+	pb "github.com/arian-khanjani/mongo-repo/gen/user"
+	"github.com/arian-khanjani/mongo-repo/repo/mongodb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/test/bufconn"
 	"log"
@@ -20,6 +20,8 @@ var client pb.UserServiceClient
 
 var ctx = context.Background()
 
+var tmpID string
+
 func init() {
 
 	uri := getEnv("MONGO_URI", "", true)
@@ -34,6 +36,8 @@ func init() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
+	//repo := memory.New()
 
 	ctrl := controller.New(repo)
 
@@ -61,6 +65,22 @@ func bufDialer(context.Context, string) (net.Conn, error) {
 	return lis.Dial()
 }
 
+func TestCreate(t *testing.T) {
+	in := &pb.User{
+		Name:  "John Doe",
+		Email: "john.doe@gmail.com",
+	}
+
+	res, err := client.Create(ctx, in)
+	if err != nil {
+		t.Error(err)
+	}
+
+	tmpID = res.Id
+
+	t.Log(res)
+}
+
 func TestList(t *testing.T) {
 	res, err := client.List(ctx, &pb.Empty{})
 	if err != nil {
@@ -74,7 +94,7 @@ func TestList(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	in := &pb.IDRequest{
-		Id: "642182b96bf1efd091001476",
+		Id: tmpID,
 	}
 
 	res, err := client.Get(ctx, in)
@@ -87,7 +107,7 @@ func TestGet(t *testing.T) {
 
 func TestUpdate(t *testing.T) {
 	in := &pb.User{
-		Id:    "642182b96bf1efd091001476",
+		Id:    tmpID,
 		Name:  "John Doe - Updated",
 		Email: "john.doe@yahoo.com",
 	}
@@ -100,23 +120,9 @@ func TestUpdate(t *testing.T) {
 	t.Log(res)
 }
 
-func TestCreate(t *testing.T) {
-	in := &pb.User{
-		Name:  "John Doe",
-		Email: "john.doe@gmail.com",
-	}
-
-	res, err := client.Create(ctx, in)
-	if err != nil {
-		t.Error(err)
-	}
-
-	t.Log(res)
-}
-
 func TestDelete(t *testing.T) {
 	in := &pb.IDRequest{
-		Id: "642182b96bf1efd091001476",
+		Id: tmpID,
 	}
 
 	res, err := client.Delete(ctx, in)
