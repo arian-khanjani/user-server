@@ -5,6 +5,7 @@ import (
 	"github.com/arian-khanjani/mongo-repo/controller"
 	pb "github.com/arian-khanjani/mongo-repo/gen/user"
 	"github.com/arian-khanjani/mongo-repo/repo/mongodb"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/test/bufconn"
 	"log"
@@ -23,6 +24,11 @@ var ctx = context.Background()
 var tmpID string
 
 func init() {
+
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("cannot load environment file")
+	}
 
 	uri := getEnv("MONGO_URI", "", true)
 	db := getEnv("MONGO_DB", "user-server", false)

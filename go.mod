@@ -5,6 +5,7 @@ go 1.19
 require (
 	github.com/amsokol/mongo-go-driver-protobuf v1.0.0-rc5
 	github.com/amsokol/protoc-gen-gotag v0.2.1
+	github.com/joho/godotenv v1.5.1
 	go.mongodb.org/mongo-driver v1.11.3
 	google.golang.org/grpc v1.54.0
 	google.golang.org/protobuf v1.30.0
